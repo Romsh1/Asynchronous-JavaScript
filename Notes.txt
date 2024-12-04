@@ -1,0 +1,7 @@
+Topics to be covered in Asynchronous JavaScript
+-> Timeouts and Intervals
+-> Callbacks
+-> async await
+-> Event Loop
+
+JavaScript is a synchrnous, blocking, single-threaded language
