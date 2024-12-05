@@ -4,4 +4,148 @@ Topics to be covered in Asynchronous JavaScript
 -> async await
 -> Event Loop
 
-JavaScript is a synchrnous, blocking, single-threaded language
+JavaScript is a synchrnous, blocking, single-threaded language.
+Thread is a process that our JS program can use to run a task.
+Single threaded means each thread can only do one task at a time.
+
+*************Timeouts and Intervals*************** (Traditional methods JS has for running code asynchronously)
+1. setTimeout() : exceutes a praticular block of code once after a specified time has elapsed
+params... setTimeout(func, duration (in milliseconds), param1, param2, ...)
+-> clearTimeout()
+
+2. setInterval() : repeatedly runs the same code over and over again at regular intervals
+params... setInterval(func, duration (in milliseconds), param1, param2, ...) param1, param2 are optional
+- We should clear intervals when appropriate
+E.g: const intervalId = setInterval(greet, 2000, 'hey');
+        clearInterval(intervalId);
+
+*************Noteworthy points****************
+1. Timers and intervals are not part of JS itself. They are implemented by the browser and setTimeout and setInterval are basically names given to
+that functionality in JS.
+2. duration param is the minimum delay, not guaranted delay. Time might take more...
+
+
+*************Callbacks***************
+ -> Any function that is passed as an argument to another function is called as callback.
+function greet(name) {
+    console.log(`Hi ${name}`);
+}
+
+function roms(greetMe) {
+    const name = 'Romika';
+    greetMe(name);
+}
+roms(greet);
+
+********Higher Order Function*********
+The function which accepts a function as an argument or returns a function is called a higher order function.
+
+**********WHY CALLBACKS***********
+1. Synchronous Callbacks
+Executed immediately
+e.g. sort, map, filter
+
+2. Asynchronous Callbacks
+e.g. when fetching data, 
+$.get("url", function(data) {
+    $(".result).html(data);
+    alert("load was performed);
+});
+
+function callback() {
+    document.getElementById("demo").innerHTML = "Hello World"
+}
+document.getElementById("btn").addEventListener("click", callback);
+
+***********Callback Hell************
+When exceution of one line depends on exection of the next one. A nested or multiple callbacks
+
+******CALLBACK SUMMARY******
+-> Callbacks are functions passed as arguments to other functions
+-> They can be synchronous if they execute immediately or can be asynchronous where they get exceuted after some time has passed,
+some event has occurred or some data has been fetched
+-> Developers encountered what is known as callback hell
+-> Promise is the alternative
+
+*************Promises PART-I : introduced to solve the problem of callback hell *************
+pending, fulfilled or rejected
+Definition:     A promise is an object that represents the eventual completion(or failure) of an asynchronous operation and its resulting values.
+Acts as a placeholder for a value that will be available in the future.
+It helps manage asynchronous code in a more readable and manageable way, avoiding callback hell.
+.then() -> Used to handle the fulfilled state
+.catch() -> Used to handle the rejected code
+.finally() -> Executes code after the promise is settled(fulfilled or rejected), regardless of the outcome
+
+1. How to create a Promise?
+const promise = new Promise();
+
+2. How to fulfill or reject the promise?
+const promise = new Promise((resolve, reject) => {
+    resolve()
+});
+
+const promise = new Promise((resolve, reject) => {
+    reject()
+});
+
+3. How to exceute callback functions based on the status change?
+const promise = new Promise((resolve, reject) => {
+    resolve()
+});
+
+const promise = new Promise((resolve, reject) => {
+    reject()
+});
+promise.then(onFulfillment);
+promise.catch(onRejection);
+
+*************Promises PART-II ****************
+1. then() function
+- can handle both success and error
+
+2. Chaining Promises
+-Can solve the issue of callback hell by chaining
+promise.then(onFulfillment);
+promise.catch(onRejection);
+//can be written as 
+promise.then(onFulfillment).catch(onRejection);
+
+3. Promise - Static methods
+3.1. Promise.all()
+To execute multiple promises concurrently and waits for all of them to resolve or reject.
+If any of the promises rejects then the final result is rejected
+e.g. of promise.all()
+const promise1 = Promise.resolve(3);
+const promise2 = 99;
+const promise3 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 100, 'foo');
+});
+
+Promise.all([promise1, promise2, promise3]).then((values) => {
+    console.log(values);
+});
+//expected output : Array [3, 99, 'foo']
+
+3.2. Promise.allSettled()
+Waits for all input promise1 to complete regardless of whether or not one of them is rejected
+
+3.3 Promise.race()
+returns a promise that resolves or rejects as soon as one of the input promises fulfills or rejects, with the value or reason from that promise
+Suppose, one of the promises gets resolved or rejected in 3 seconds and another promise gets resolved or rejected in 1 sec then
+second promise will be returned with its output
+
+*************ASYNC AWAIT**************
+-> Modern JS feature that lets us write asynchronous code in a synchronous way. A better version to write asynchronous operation
+without chaining .then() and .catch()
+-> Async always returns a promise
+
+async function greet() {
+    return "Hello World!"
+}
+greet()
+
+* AWAIT keyword makes JS function wait until a promise settles and returns a value
+
+#Sequential vs concurrent vs parallel execution#
+
+****************Event Loop*********************
