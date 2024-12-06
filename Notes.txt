@@ -149,3 +149,17 @@ greet()
 #Sequential vs concurrent vs parallel execution#
 
 ****************Event Loop*********************
+-> Aysnchronous code
+Call Stack
+Web APIs
+Event Loop
+Callback Queue / Task Queue
+
+-> Async Promise Code
+Memory
+Call Stack
+Web APIs
+Event Loop
+Micro Task Queue
+Callback Queue / Task Queue
+************* NOTE: Micro Task Queue gets PRIORITIZED OVER Callback Queue / Task Queue *****************
